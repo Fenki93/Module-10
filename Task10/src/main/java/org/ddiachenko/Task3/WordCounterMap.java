@@ -4,11 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WordCounterMap {
 
-    public void countUniqueWords(String filePath){
+    public void countUniqueWords(String filePath) {
         Map<String, Integer> wordCount = new HashMap<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -20,7 +21,14 @@ public class WordCounterMap {
                 }
             }
 
-            wordCount.forEach((word, count) -> System.out.println(word + " " + count));
+            List<Map.Entry<String, Integer>> sortedEntries = wordCount.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue())
+                    .toList();
+
+            for (Map.Entry<String, Integer> entry : sortedEntries) {
+                System.out.println(entry.getKey() + " " + entry.getValue());
+            }
         } catch (IOException e) {
             e.getMessage();
         }
